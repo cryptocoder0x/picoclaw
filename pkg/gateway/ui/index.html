@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🦞 PicoClaw Gateway</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🦞 PicoClaw Gateway</h1>
+            <div class="status-bar">
+                <span id="connection-status" class="status-indicator disconnected">Disconnected</span>
+                <button id="status-btn" class="btn-secondary">Status</button>
+            </div>
+        </header>
+
+        <main>
+            <div id="chat-container">
+                <div id="messages" class="messages"></div>
+                <div class="input-area">
+                    <input 
+                        type="text" 
+                        id="message-input" 
+                        placeholder="Type your message here..." 
+                        autocomplete="off"
+                    >
+                    <button id="send-btn" class="btn-primary">Send</button>
+                </div>
+            </div>
+
+            <div id="status-panel" class="status-panel hidden">
+                <h2>Gateway Status</h2>
+                <div id="status-content" class="status-content">
+                    <p>Loading...</p>
+                </div>
+                <button id="close-status-btn" class="btn-secondary">Close</button>
+            </div>
+        </main>
+
+        <footer>
+            <p>PicoClaw Gateway - Ultra-lightweight AI Assistant</p>
+        </footer>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>

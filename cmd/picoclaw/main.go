@@ -28,6 +28,7 @@ import (
 	"github.com/sipeed/picoclaw/pkg/config"
 	"github.com/sipeed/picoclaw/pkg/cron"
 	"github.com/sipeed/picoclaw/pkg/devices"
+	"github.com/sipeed/picoclaw/pkg/gateway"
 	"github.com/sipeed/picoclaw/pkg/heartbeat"
 	"github.com/sipeed/picoclaw/pkg/logger"
 	"github.com/sipeed/picoclaw/pkg/migrate"
@@ -626,7 +627,15 @@ func gatewayCmd() {
 		fmt.Println("⚠ Warning: No channels enabled")
 	}
 
-	fmt.Printf("✓ Gateway started on %s:%d\n", cfg.Gateway.Host, cfg.Gateway.Port)
+	// Start web UI gateway server
+	gatewayServer := gateway.NewServer(cfg, agentLoop)
+	if err := gatewayServer.Start(); err != nil {
+		fmt.Printf("Error starting gateway web UI: %v\n", err)
+	} else {
+		fmt.Printf("✓ Web UI available at http://%s:%d\n", cfg.Gateway.Host, cfg.Gateway.Port)
+	}
+
+	fmt.Printf("✓ Gateway started\n")
 	fmt.Println("Press Ctrl+C to stop")
 
 	ctx, cancel := context.WithCancel(context.Background())
@@ -666,6 +675,14 @@ func gatewayCmd() {
 
 	fmt.Println("\nShutting down...")
 	cancel()
+	
+	// Shutdown gateway server with timeout
+	shutdownCtx, shutdownCancel := context.WithTimeout(context.Background(), 5*time.Second)
+	defer shutdownCancel()
+	if err := gatewayServer.Stop(shutdownCtx); err != nil {
+		fmt.Printf("Error stopping gateway server: %v\n", err)
+	}
+	
 	deviceService.Stop()
 	heartbeatService.Stop()
 	cronService.Stop()

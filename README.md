@@ -237,6 +237,41 @@ That's it! You have a working AI assistant in 2 minutes.
 
 ---
 
+## 🌐 Gateway Web UI
+
+PicoClaw includes a web-based interface for interacting with your AI assistant, similar to OpenClaw's gateway UI.
+
+**Start the gateway with web UI:**
+
+```bash
+picoclaw gateway
+```
+
+**Access the UI:**
+
+Open your browser to `http://localhost:18790`
+
+**Features:**
+- 💬 **Real-time Chat**: WebSocket-based chat interface
+- 📊 **Status Dashboard**: View agent configuration, tools, and skills
+- 📱 **Responsive Design**: Works on desktop and mobile
+- 🪶 **Ultra-Lightweight**: Minimal resource usage (<10MB RAM)
+
+**Configure Gateway:**
+
+```json
+{
+  "gateway": {
+    "host": "0.0.0.0",
+    "port": 18790
+  }
+}
+```
+
+See [`pkg/gateway/README.md`](pkg/gateway/README.md) for more details.
+
+---
+
 ## 💬 Chat Apps
 
 Talk to your picoclaw through Telegram, Discord, DingTalk, or LINE
